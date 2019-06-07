@@ -5,6 +5,7 @@ go 1.12
 require (
 	github.com/AndreasBriese/bbloom v0.0.0-20190306092124-e2d15f34fcf9 // indirect
 	github.com/alldroll/cdb v1.0.1
+	github.com/bsm/bfs v0.6.4 // indirect
 	github.com/bsm/geokit v0.3.1
 	github.com/colinmarc/cdb v0.0.0-20190223170904-60f317823f70
 	github.com/dgraph-io/badger v1.5.4

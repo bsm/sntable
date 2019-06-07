@@ -6,19 +6,8 @@ vet:
 test:
 	go test ./...
 
-test-race:
-	go test ./... -race
+.PHONY: vet test
 
-bench:
-	go test ./... -run=NONE -bench=. -benchmem
-
-bench-race:
-	go test ./... -run=NONE -bench=. -race
-
-deps:
-	dep ensure -v
-
-errcheck:
-	errcheck ./...
-
-.PHONY: vet test deps errcheck
+# go get -u github.com/davelondon/rebecca/cmd/becca
+README.md: README.md.tpl
+	becca -package github.com/bsm/sntable
