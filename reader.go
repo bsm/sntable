@@ -300,6 +300,10 @@ func (r *SectionReader) Next() bool {
 	return false
 }
 
+// Release releases the section reader and frees up resources. The reader must not be used
+// after this method is called.
+func (r *SectionReader) Release() {}
+
 // --------------------------------------------------------------------
 
 // Iterator is a convenience wrapper around BlockReader and SectionReader
@@ -364,6 +368,7 @@ func (i *Iterator) Err() error {
 // after this method is called.
 func (i *Iterator) Release() {
 	i.b.Release()
+	i.s.Release()
 	i.err = errReleased
 }
 
