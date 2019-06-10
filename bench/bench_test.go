@@ -36,16 +36,6 @@ func Benchmark(b *testing.B) {
 	b.Run("syndtr/goleveldb 10M snappy", func(b *testing.B) {
 		benchGoLevelDB(b, 10e6, true)
 	})
-
-	b.Run("bsm/sntable 100M snappy", func(b *testing.B) {
-		benchSnTable(b, 100e6, true)
-	})
-	b.Run("golang/leveldb 100M snappy", func(b *testing.B) {
-		benchLevelDB(b, 100e6, true)
-	})
-	b.Run("syndtr/goleveldb 100M snappy", func(b *testing.B) {
-		benchGoLevelDB(b, 100e6, true)
-	})
 }
 
 func benchSnTable(b *testing.B, numSeeds int, compress bool) {
@@ -207,12 +197,6 @@ func createSeedFile(b *testing.B, prefix string, numSeeds int, compress bool, cb
 	if err := cb(f); err != nil {
 		b.Fatal(err)
 	}
-
-	if err := f.Close(); err != nil {
-		b.Fatal(err)
-	}
-
-	b.Fatalf("skipping on first run, drop caches and try again")
 	return fname
 }
 

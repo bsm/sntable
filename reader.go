@@ -196,12 +196,12 @@ func (r *BlockReader) GetSection(spos int) *SectionReader {
 		spos = 0
 	}
 	if spos >= r.scnt {
-		return &SectionReader{spos: r.scnt}
+		return newSectionReader(r.scnt, nil)
 	}
 
 	min := r.sectionOffset(spos)
 	max := r.sectionOffset(spos + 1)
-	return &SectionReader{section: r.block[min:max], spos: spos}
+	return newSectionReader(spos, r.block[min:max])
 }
 
 // SeekSection seeks the section for a key.
@@ -234,6 +234,8 @@ func (r *BlockReader) sectionOffset(spos int) int {
 	}
 }
 
+var sectionReaderPool sync.Pool
+
 // SectionReader reads an individual section within a block.
 type SectionReader struct {
 	section []byte
@@ -243,6 +245,15 @@ type SectionReader struct {
 
 	key uint64 // current key
 	val []byte // current value
+}
+
+func newSectionReader(spos int, section []byte) *SectionReader {
+	if v := sectionReaderPool.Get(); v != nil {
+		sr := v.(*SectionReader)
+		*sr = SectionReader{spos: spos, section: section}
+		return sr
+	}
+	return &SectionReader{spos: spos, section: section}
 }
 
 // Seek positions the cursor before the key.
@@ -302,7 +313,7 @@ func (r *SectionReader) Next() bool {
 
 // Release releases the section reader and frees up resources. The reader must not be used
 // after this method is called.
-func (r *SectionReader) Release() {}
+func (r *SectionReader) Release() { sectionReaderPool.Put(r) }
 
 // --------------------------------------------------------------------
 
