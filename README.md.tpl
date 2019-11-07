@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Custom [SSTable](https://www.igvita.com/2012/02/06/sstable-and-log-structured-storage-leveldb/) implementation
-for [Go](https://golang.org). Instead of arbitrary bytes trings, this implementation assumes numeric 8-byte (`uint64`)
+for [Go](https://golang.org). Instead of arbitrary bytes strings, this implementation assumes numeric 8-byte (`uint64`)
 keys.
 
 ## Examples
